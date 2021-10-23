@@ -1,0 +1,42 @@
+#:kivy 2.0.0
+
+<FloatButton@FloatLayout>
+    id: float_root
+    size_hint: (None, None)
+    text: ''
+    btn_size: (70, 70)
+    size: (70, 70)
+    bg_color: (0.404, 0.227, 0.718, 1.0)
+    pos_hint: {'x': .6}
+    Button:
+        text: float_root.text
+        markup: True
+        font_size: 40
+        size_hint: (None, None)
+        size: float_root.btn_size
+        pos_hint: {'x': .2, 'y': .2}
+        background_normal: ''
+        background_color: (0, 0, 0, 0)
+        canvas.before:
+            Color:
+                rgba: (0.404, 0.227, 0.718, 1.0)
+            Ellipse:
+                size: self.size
+                pos: self.pos
+BoxLayout:
+    orientation: 'vertical'
+    ScrollView:
+        id: gallery
+        GridLayout:
+            id: gallery_content
+            cols: 2
+            padding: 20
+            spacing: 50
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'lr-tb'
+            row_default_height: 300
+    FloatButton:
+        text: '+'
+        markup: True
+        background_color: 1, 0, 1, 0
