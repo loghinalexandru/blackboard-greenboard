@@ -14,7 +14,6 @@ from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from engine.main import process_image
 
-
 photos = os.path.abspath((os.path.dirname(__file__)))
 
 def enable_widget(self):
@@ -41,7 +40,7 @@ class CaptureScreen(Screen):
         Clock.schedule_once(partial(process_image, filename))
 
 class GalleryScreen(Screen):
-    def on_pre_enter(self):
+    def on_enter(self):
         Clock.schedule_once(self.load_photos)
 
     def load_photos(self, _):
