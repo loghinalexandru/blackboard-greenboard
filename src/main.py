@@ -6,9 +6,12 @@ kivy.require('2.0.0')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.utils import platform
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
 
 def get_permissions():
     if platform == "android":
@@ -16,6 +19,11 @@ def get_permissions():
         request_permissions([
             Permission.CAMERA
         ])
+
+class MsgPopup(Popup):
+    def __init__(self, msg):
+        super().__init__()
+        self.ids.message_label.text = str(msg)
 
 class ImageButton(ButtonBehavior, Image):
     pass
@@ -35,8 +43,13 @@ class GalleryScreen(Screen):
         app_folder = os.path.dirname(os.path.abspath(__file__))
         files = os.listdir(app_folder)
         for file in files:
-            if(file.endswith("png")):
-                self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
+            try:
+                if(file.endswith("png")):
+                    self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
+            except Exception as e:
+                popup = Popup(title='Error', content=Label(text=str(e)),auto_dismiss=False)
+                popup.open()
+
 
 class BlackBoardGreenBoardApp(App):
     kv_directory = 'modules'
