@@ -1,5 +1,6 @@
 import cv2
 import sys
+import os
 
 def get_note(path):
     original = cv2.imread(path)
@@ -11,6 +12,14 @@ def get_note(path):
     _, gray = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY)
     gray = cv2.morphologyEx(gray, cv2.MORPH_ERODE, cv2.getStructuringElement(cv2.MORPH_RECT, (5,5)))
     return cv2.bitwise_not(gray)
+
+def process_images(path, _):
+    files = os.listdir(path)
+    for file in files:
+        if(file.endswith("jpg")):
+            if("processed" not in file):
+                buffer = get_note(file)
+                cv2.imwrite(file, buffer)
 
 if __name__ == '__main__':
     cv2.imwrite('result.jpg', get_note(sys.argv[1]))
