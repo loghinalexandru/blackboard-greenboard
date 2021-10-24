@@ -1,0 +1,45 @@
+#:kivy 2.0.0
+
+<FloatButton@FloatLayout>
+    id: float_root
+    size_hint: (None, None)
+    text: ''
+    btn_size: (40, 40)
+    size: (40, 40)
+    bg_color: (0.404, 0.227, 0.718, 1.0)
+    pos_hint: {'x': .8}
+    Button:
+        text: float_root.text
+        markup: True
+        font_size: 40
+        size_hint: (None, None)
+        size: float_root.btn_size
+        pos_hint: {'x': .8, 'y': .8}
+        background_normal: ''
+        on_press: app.root.current= 'capture'
+        background_color: (0, 0, 0, 0)
+        canvas.before:
+            Color:
+                rgba: (0.404, 0.227, 0.718, 1.0)
+            Ellipse:
+                size: self.size
+                pos: self.pos
+
+<GalleryScreen>:
+    name: 'gallery'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            id: gallery
+            GridLayout:
+                id: gallery_content
+                cols: 2
+                pacing: 10
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'lr-tb'
+                row_default_height: 300
+        FloatButton:
+            text: '+'
+            markup: True
+            background_color: 1, 0, 1, 0
