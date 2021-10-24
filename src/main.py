@@ -12,7 +12,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
-from engine.main import process_images
+from engine.main import process_image
 
 
 photos = os.path.abspath((os.path.dirname(__file__)))
@@ -21,7 +21,7 @@ def enable_widget(self):
     self.ids.camera.opacity = 100
     self.ids.camera.disabled = False
 
-def disalbe_widget(self):
+def disable_widget(self):
     self.ids.camera.opacity = 0
     self.ids.camera.disabled = True
 
@@ -33,20 +33,19 @@ class CaptureScreen(Screen):
         Clock.schedule_once(self.force_landscape)
 
     def force_landscape(self, _):
-        enable_widget(self)
         self.ids.camera.force_landscape()
 
-    def picture_taken(self):
+    def picture_taken(self, _, filename):
         self.ids.camera.restore_orientation()
-        disalbe_widget(self)
         self.manager.current = 'gallery'
-        Clock.schedule_once(partial(process_images, photos))
+        Clock.schedule_once(partial(process_image, filename))
 
 class GalleryScreen(Screen):
     def on_pre_enter(self):
         Clock.schedule_once(self.load_photos)
 
     def load_photos(self, _):
+        self.ids.gallery_content.clear_widgets()
         files = os.listdir(photos)
         for file in files:
             try:

@@ -13,13 +13,9 @@ def get_note(path):
     gray = cv2.morphologyEx(gray, cv2.MORPH_ERODE, cv2.getStructuringElement(cv2.MORPH_RECT, (5,5)))
     return cv2.bitwise_not(gray)
 
-def process_images(path, _):
-    files = os.listdir(path)
-    for file in files:
-        if(file.endswith("jpg")):
-            if("processed" not in file):
-                buffer = get_note(file)
-                cv2.imwrite(file, buffer)
+def process_image(path, _):
+    buffer = get_note(path)
+    cv2.imwrite(path, buffer)
 
 if __name__ == '__main__':
     cv2.imwrite('result.jpg', get_note(sys.argv[1]))
