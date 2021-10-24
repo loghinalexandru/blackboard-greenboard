@@ -8,12 +8,15 @@ from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.utils import platform
+from kivy.clock import Clock
 
 def get_permissions():
-     if platform == "android":
+    if platform == "android":
         from android.permissions import request_permissions, Permission
         request_permissions([
-            Permission.CAMERA
+            Permission.CAMERA,
+            Permission.WRITE_EXTERNAL_STORAGE,
+            Permission.READ_EXTERNAL_STORAGE
         ])
 
 class ImageButton(ButtonBehavior, Image):
@@ -26,12 +29,16 @@ class CaptureScreen(Screen):
         camera.export_to_png("IMG_{}.png".format(timestr))
 
 class GalleryScreen(Screen):
-    def build(self):
+    def __init__(self, **kwargs):
+        super(GalleryScreen, self).__init__(**kwargs)
+        Clock.schedule_once(self.on_start)
+
+    def on_start(self, *args):
         app_folder = os.path.dirname(os.path.abspath(__file__))
         files = os.listdir(app_folder)
         for file in files:
-            if(file.endswith("jpg")):
-                self.root.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=False))
+            if(file.endswith("png")):
+                self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
 
 class BlackBoardGreenBoardApp(App):
     kv_directory = 'modules'

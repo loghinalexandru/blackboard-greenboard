@@ -6,7 +6,9 @@
         orientation: 'vertical'
         Camera:
             id: camera
+            resolution: (self.width, self.height)
             play: True
+            allow_stretch: True
         Button:
             text: 'Capture'
             size_hint_y: None
