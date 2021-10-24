@@ -16,14 +16,6 @@ from engine.main import process_image
 
 photos = os.path.abspath((os.path.dirname(__file__)))
 
-def enable_widget(self):
-    self.ids.camera.opacity = 100
-    self.ids.camera.disabled = False
-
-def disable_widget(self):
-    self.ids.camera.opacity = 0
-    self.ids.camera.disabled = True
-
 class ImageButton(ButtonBehavior, Image):
     pass
 
@@ -35,8 +27,8 @@ class CaptureScreen(Screen):
         self.ids.camera.force_landscape()
 
     def picture_taken(self, _, filename):
-        self.ids.camera.restore_orientation()
         self.manager.current = 'gallery'
+        self.ids.camera.restore_orientation()
         Clock.schedule_once(partial(process_image, filename))
 
 class GalleryScreen(Screen):
