@@ -1,6 +1,5 @@
 import kivy
 import os
-import time
 kivy.require('2.0.0')
 
 from kivy.app import App
@@ -24,16 +23,16 @@ def get_permissions():
 
 photos = os.path.abspath((os.path.dirname(__file__)))
 
-class MsgPopup(Popup):
-    def __init__(self, msg):
-        super().__init__()
-        self.ids.message_label.text = str(msg)
-
 class ImageButton(ButtonBehavior, Image):
     pass
 
 class CaptureScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(CaptureScreen, self).__init__(**kwargs)
+        Clock.schedule_once(self.on_start)
+
+    def on_start(self, *args):
+        self.ids.camera.force_landscape()
 
 class GalleryScreen(Screen):
     def __init__(self, **kwargs):
