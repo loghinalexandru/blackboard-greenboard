@@ -1,15 +1,7 @@
 #:kivy 2.0.0
+#:import xcamera kivy_garden.xcamera.xcamera
 
 <CaptureScreen>:
     name: 'capture'
-    BoxLayout:
-        orientation: 'vertical'
-        Camera:
-            id: camera
-            play: True
-            allow_stretch: True
-        Button:
-            text: 'Capture'
-            size_hint_y: None
-            height: '48dp'
-            on_press: root.capture()
+    XCamera:
+        id: camera

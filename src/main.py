@@ -22,6 +22,8 @@ def get_permissions():
             Permission.READ_EXTERNAL_STORAGE
         ])
 
+photos = os.path.abspath((os.path.dirname(__file__)))
+
 class MsgPopup(Popup):
     def __init__(self, msg):
         super().__init__()
@@ -31,11 +33,7 @@ class ImageButton(ButtonBehavior, Image):
     pass
 
 class CaptureScreen(Screen):
-    def capture(self):
-        camera = self.ids['camera']
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_{}.png".format(timestr))
-        self.manager.current = 'gallery'
+    pass
 
 class GalleryScreen(Screen):
     def __init__(self, **kwargs):
@@ -43,14 +41,12 @@ class GalleryScreen(Screen):
         Clock.schedule_once(self.on_start)
 
     def on_start(self, *args):
-        app_folder = os.path.dirname(os.path.abspath(__file__))
-        files = os.listdir(app_folder)
-        for file in files:
+        for file in os.listdir(photos):
             try:
-                if(file.endswith("png")):
+                if(file.endswith("jpg")):
                     self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
             except Exception as e:
-                popup = Popup(title='Error', content=Label(text=str(e)),auto_dismiss=False)
+                popup = Popup(title='Error', content=Label(text=str(e)))
                 popup.open()
 
 class BlackBoardGreenBoardApp(App):
