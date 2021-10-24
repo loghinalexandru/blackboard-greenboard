@@ -7,7 +7,14 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
-from kivy.lang import Builder
+from kivy.utils import platform
+
+def get_permissions():
+     if platform == "android":
+        from android.permissions import request_permissions, Permission
+        request_permissions([
+            Permission.CAMERA
+        ])
 
 class ImageButton(ButtonBehavior, Image):
     pass
@@ -28,6 +35,8 @@ class GalleryScreen(Screen):
 
 class BlackBoardGreenBoardApp(App):
     kv_directory = 'modules'
+    def build(self):
+        get_permissions()
 
 if __name__ == '__main__':
     BlackBoardGreenBoardApp().run()
