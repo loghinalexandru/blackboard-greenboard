@@ -4,7 +4,7 @@ import time
 kivy.require('2.0.0')
 
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from kivy.uix.screenmanager import Screen
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
@@ -17,7 +17,9 @@ def get_permissions():
     if platform == "android":
         from android.permissions import request_permissions, Permission
         request_permissions([
-            Permission.CAMERA
+            Permission.CAMERA,
+            Permission.WRITE_EXTERNAL_STORAGE,
+            Permission.READ_EXTERNAL_STORAGE
         ])
 
 class MsgPopup(Popup):
@@ -33,23 +35,10 @@ class CaptureScreen(Screen):
         camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
         camera.export_to_png("IMG_{}.png".format(timestr))
+        self.manager.current = 'gallery'
 
 class GalleryScreen(Screen):
-    def __init__(self, **kwargs):
-        super(GalleryScreen, self).__init__(**kwargs)
-        Clock.schedule_once(self.on_start)
-
-    def on_start(self, *args):
-        app_folder = os.path.dirname(os.path.abspath(__file__))
-        files = os.listdir(app_folder)
-        for file in files:
-            try:
-                if(file.endswith("png")):
-                    self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
-            except Exception as e:
-                popup = Popup(title='Error', content=Label(text=str(e)),auto_dismiss=False)
-                popup.open()
-
+    pass
 
 class BlackBoardGreenBoardApp(App):
     kv_directory = 'modules'
