@@ -38,7 +38,20 @@ class CaptureScreen(Screen):
         self.manager.current = 'gallery'
 
 class GalleryScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(GalleryScreen, self).__init__(**kwargs)
+        Clock.schedule_once(self.on_start)
+
+    def on_start(self, *args):
+        app_folder = os.path.dirname(os.path.abspath(__file__))
+        files = os.listdir(app_folder)
+        for file in files:
+            try:
+                if(file.endswith("png")):
+                    self.ids.gallery_content.add_widget(ImageButton(source=file, allow_stretch=True, keep_ratio=True))
+            except Exception as e:
+                popup = Popup(title='Error', content=Label(text=str(e)),auto_dismiss=False)
+                popup.open()
 
 class BlackBoardGreenBoardApp(App):
     kv_directory = 'modules'
