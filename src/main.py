@@ -27,19 +27,21 @@ class ImageButton(ButtonBehavior, Image):
     pass
 
 class CaptureScreen(Screen):
-    def __init__(self, **kwargs):
-        super(CaptureScreen, self).__init__(**kwargs)
-        Clock.schedule_once(self.on_start)
+    def on_pre_enter(self):
+        Clock.schedule_once(self.force_landscape)
 
-    def on_start(self, *args):
+    def force_landscape(self, _):
         self.ids.camera.force_landscape()
 
-class GalleryScreen(Screen):
-    def __init__(self, **kwargs):
-        super(GalleryScreen, self).__init__(**kwargs)
-        Clock.schedule_once(self.on_start)
+    def picture_taken(self):
+        self.ids.camera.restore_orientation()
+        self.manager.current = 'gallery'
 
-    def on_start(self, *args):
+class GalleryScreen(Screen):
+    def on_pre_enter(self):
+        Clock.schedule_once(self.load_photos)
+
+    def load_photos(self, _):
         for file in os.listdir(photos):
             try:
                 if(file.endswith("jpg")):
