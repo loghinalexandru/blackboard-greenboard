@@ -14,9 +14,7 @@ def get_permissions():
     if platform == "android":
         from android.permissions import request_permissions, Permission
         request_permissions([
-            Permission.CAMERA,
-            Permission.WRITE_EXTERNAL_STORAGE,
-            Permission.READ_EXTERNAL_STORAGE
+            Permission.CAMERA
         ])
 
 class ImageButton(ButtonBehavior, Image):
