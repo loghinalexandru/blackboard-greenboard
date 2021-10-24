@@ -10,7 +10,6 @@ def get_note(path):
     gray = cv2.cvtColor(filtered, cv2.COLOR_BGR2GRAY)
     _, gray = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY)
     gray = cv2.morphologyEx(gray, cv2.MORPH_ERODE, cv2.getStructuringElement(cv2.MORPH_RECT, (5,5)))
-
     return cv2.bitwise_not(gray)
 
 if __name__ == '__main__':
