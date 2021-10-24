@@ -44,7 +44,7 @@ class CaptureScreen(Screen):
     def process_image(self):
         files = os.listdir(photos)
         for file in files:
-            if(file.endswith("jpg") ):
+            if(file.endswith("jpg")):
                 if("processed" not in file):
                     buffer = get_note(file)
                     file_name = file[:-3] + "_processed.jpg"
