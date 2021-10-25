@@ -5,14 +5,33 @@ from functools import partial
 kivy.require('2.0.0')
 
 from kivymd.app import MDApp
-from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
-from kivy.uix.image import Image
+from kivy.core.window import Window
 from kivymd.uix.imagelist import SmartTile
 from kivy.clock import Clock
+from kivy.uix.screenmanager import ScreenManager
 from engine.main import process_image
 
 photos = os.path.abspath((os.path.dirname(__file__)))
+
+class CustomScreenManager(ScreenManager):
+    def __init__(self, **kwargs):
+        super(CustomScreenManager, self).__init__(**kwargs)
+        Clock.schedule_once(lambda _: Window.bind(on_keyboard=self.hook_keyboard))
+
+    def get_previous_screen(self):
+        if(self.current == 'capture'):
+            return ('gallery', True)
+        if(self.current == 'gallery'):
+            return ('gallery', False)
+        if(self.current == 'imageview'):
+            return ('gallery', True)
+
+    def hook_keyboard(self, _, key, *args):
+        print(self.previous())
+        if key == 27:
+            self.current, done = self.get_previous_screen()
+            return done
 
 class CustomSmartTile(SmartTile):
     def __init__(self, **kwargs):
@@ -28,14 +47,7 @@ class CustomSmartTile(SmartTile):
         self.parent.parent.parent.manager.current = 'imageview'
 
 class ImageViewScreen(MDScreen):
-    def __init__(self,**kwargs):
-        super(ImageViewScreen,self).__init__(**kwargs)
-        Window.bind(on_keyboard=self.hook_keyboard)
-
-    def hook_keyboard(self, window, key, *largs):
-        if key == 27:
-            self.manager.current = 'gallery'
-            return True
+    pass
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):
