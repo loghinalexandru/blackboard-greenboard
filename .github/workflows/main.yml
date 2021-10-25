@@ -18,7 +18,7 @@ jobs:
           workdir: .
           buildozer_version: stable
         env:
-          APP_VERSION: "0.0.$GITHUB_RUN_NUMBER"
+          APP_VERSION: 0.0.$env:GITHUB_RUN_NUMBER
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
