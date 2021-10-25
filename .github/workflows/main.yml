@@ -13,7 +13,7 @@ jobs:
         
       - name: Set version number
         run: |
-          $version = '0.0.${{ env:GITHUB_RUN_NUMBER }}'
+          $version = '0.0.${{ github.run_number }}'
           echo $version
           echo "VERSION_NUMBER=$version" 
 
