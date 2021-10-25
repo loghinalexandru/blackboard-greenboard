@@ -1,0 +1,12 @@
+#:kivy 2.0.0
+
+<ImageViewScreen>:
+    name: 'imageview'
+    file_name: ''
+    ScatterLayout:
+        id: image_container
+        do_translation: False
+        do_rotation: False
+        FitImage:
+            id: bg_image
+            source: root.file_name
