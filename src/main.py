@@ -47,7 +47,9 @@ class CustomSmartTile(SmartTile):
         self.parent.parent.parent.manager.current = 'imageview'
 
 class ImageViewScreen(MDScreen):
-    pass
+    def delete_photo(self):
+        os.remove(self.file_name)
+        self.manager.current = 'gallery'
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):
