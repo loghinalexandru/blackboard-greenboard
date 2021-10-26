@@ -9,11 +9,18 @@ from kivymd.uix.screen import MDScreen
 from kivy.core.window import Window
 from kivy.graphics.transformation import Matrix
 from kivymd.uix.imagelist import SmartTile
+from kivymd.uix.behaviors import TouchBehavior
 from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.scatterlayout import ScatterLayout
 from engine.main import process_image
 
 photos = os.path.abspath((os.path.dirname(__file__)))
+
+class CustomScatterLayout(TouchBehavior, ScatterLayout):
+    def on_double_tap(self, *args):
+        trans = Matrix().scale(1, 1, 1)
+        self.transform = trans
 
 class CustomScreenManager(ScreenManager):
     def __init__(self, **kwargs):
@@ -36,7 +43,6 @@ class CustomScreenManager(ScreenManager):
 class CustomSmartTile(SmartTile):
     def __init__(self, **kwargs):
         super(CustomSmartTile, self).__init__(**kwargs)
-        self.ripple_scale = 0.85
         self.height = '240dp'
         self.size_hint_y = None
         self.box_color = [0, 0, 0, 0]
@@ -48,7 +54,7 @@ class CustomSmartTile(SmartTile):
 
 class ImageViewScreen(MDScreen):
     def on_pre_enter(self):
-        Clock.schedule_once(self.reset_scatter)
+        Clock.schedule_once(self.ids.image_container.on_double_tap)
 
     def delete_photo(self):
         os.remove(self.file_name)
