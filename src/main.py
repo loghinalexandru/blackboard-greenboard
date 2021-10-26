@@ -7,6 +7,7 @@ kivy.require('2.0.0')
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivy.core.window import Window
+from kivy.graphics.transformation import Matrix
 from kivymd.uix.imagelist import SmartTile
 from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager
@@ -28,7 +29,6 @@ class CustomScreenManager(ScreenManager):
             return ('gallery', True)
 
     def hook_keyboard(self, _, key, *args):
-        print(self.previous())
         if key == 27:
             self.current, done = self.get_previous_screen()
             return done
@@ -37,8 +37,8 @@ class CustomSmartTile(SmartTile):
     def __init__(self, **kwargs):
         super(CustomSmartTile, self).__init__(**kwargs)
         self.ripple_scale = 0.85
-        self.height='240dp'
-        self.size_hint_y=None
+        self.height = '240dp'
+        self.size_hint_y = None
         self.box_color = [0, 0, 0, 0]
         self.on_press = partial(self.maximize, self.source)
 
@@ -47,9 +47,16 @@ class CustomSmartTile(SmartTile):
         self.parent.parent.parent.manager.current = 'imageview'
 
 class ImageViewScreen(MDScreen):
+    def on_pre_enter(self):
+        Clock.schedule_once(self.reset_scatter)
+
     def delete_photo(self):
         os.remove(self.file_name)
         self.manager.current = 'gallery'
+
+    def reset_scatter(self, _):
+        trans = Matrix().scale(1, 1, 1)
+        self.ids.image_container.transform = trans
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):

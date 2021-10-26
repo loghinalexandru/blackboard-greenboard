@@ -14,6 +14,7 @@ def get_note(path):
 
 def process_image(path, _):
     buffer = get_note(path)
+    buffer = cv2.rotate(buffer, cv2.ROTATE_90_CLOCKWISE)
     cv2.imwrite(path, buffer)
 
 if __name__ == '__main__':
