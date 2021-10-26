@@ -37,7 +37,7 @@ class CustomSmartTile(SmartTile):
     def __init__(self, **kwargs):
         super(CustomSmartTile, self).__init__(**kwargs)
         self.ripple_scale = 0.85
-        self.height='400dp'
+        self.height='240dp'
         self.size_hint_y=None
         self.box_color = [0, 0, 0, 0]
         self.on_press = partial(self.maximize, self.source)
@@ -51,14 +51,12 @@ class ImageViewScreen(MDScreen):
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):
-        Clock.schedule_once(self.force_landscape)
+        Clock.schedule_once(lambda _: self.ids.camera.force_landscape)
 
-    def force_landscape(self, _):
-        self.ids.camera.force_landscape()
+    def on_leave(self):
+        Clock.schedule_once(lambda _: self.ids.camera.restore_orientation)
 
     def picture_taken(self, _, filename):
-        self.manager.current = 'gallery'
-        self.ids.camera.restore_orientation()
         Clock.schedule_once(partial(process_image, filename))
 
 class GalleryScreen(MDScreen):
