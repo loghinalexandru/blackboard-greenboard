@@ -51,10 +51,10 @@ class ImageViewScreen(MDScreen):
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):
-        Clock.schedule_once(lambda _: self.ids.camera.force_landscape)
+        Clock.schedule_once(lambda _: self.ids.camera.force_landscape())
 
     def on_leave(self):
-        Clock.schedule_once(lambda _: self.ids.camera.restore_orientation)
+        Clock.schedule_once(lambda _: self.ids.camera.restore_orientation())
 
     def picture_taken(self, _, filename):
         Clock.schedule_once(partial(process_image, filename))

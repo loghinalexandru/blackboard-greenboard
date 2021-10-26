@@ -1,6 +1,5 @@
 import cv2
 import sys
-import os
 
 def get_note(path):
     original = cv2.imread(path)

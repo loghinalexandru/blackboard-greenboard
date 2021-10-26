@@ -3,11 +3,44 @@
 <ImageViewScreen>:
     name: 'imageview'
     file_name: ''
-    ScatterLayout:
-        id: image_container
-        do_translation: False
-        do_rotation: False
-        scale_min: 1
-        Image:
-            id: bg_image
-            source: root.file_name
+    md_bg_color: 0, 0, 0, 1
+    BoxLayout:
+        ScatterLayout:
+            id: image_container
+            do_translation: False
+            do_rotation: False
+            scale_min: 1
+            Image:
+                id: bg_image
+                source: root.file_name
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'bottom'
+        padding: [0, 0, 20, 0]
+        MDIconButton:
+            icon: "delete"
+            user_font_size: "32sp"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: [0, 0, 20, 0]
+        MDIconButton:
+            icon: "share-variant"
+            user_font_size: "32sp"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: [20, 0, 0, 0]
+        MDIconButton:
+            icon: "arrow-left"
+            user_font_size: "32sp"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_press: app.root.current = 'gallery'
