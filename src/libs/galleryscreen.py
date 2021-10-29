@@ -3,24 +3,10 @@ kivy.require('2.0.0')
 
 import os
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.imagelist import SmartTile
 from kivymd.uix.filemanager import MDFileManager
-from kivy.uix.modalview import ModalView
 from kivy.clock import Clock
-from functools import partial
 from constants import ROOT_DIR
-
-class CustomSmartTile(SmartTile):
-    def __init__(self, **kwargs):
-        super(CustomSmartTile, self).__init__(**kwargs)
-        self.height = '240dp'
-        self.size_hint_y = None
-        self.box_color = [0, 0, 0, 0]
-        self.on_press = partial(self.maximize, self.source)
-
-    def maximize(self, file):
-        self.parent.parent.parent.manager.get_screen('imageview').file_name = file
-        self.parent.parent.parent.manager.current = 'imageview'
+from libs.components.customsmarttile import CustomSmartTile
 
 class GalleryScreen(MDScreen):
     data = {
@@ -66,7 +52,3 @@ class GalleryScreen(MDScreen):
         if(file_path.endswith("jpg") ):
             self.ids.gallery_content.remove_widget(self.photo_widgets[file_path])
             os.remove(file_path)
-
-
-
-          

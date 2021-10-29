@@ -5,6 +5,7 @@ from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager
+from constants import Screen
 
 class CustomScreenManager(ScreenManager):
     def __init__(self, **kwargs):
@@ -12,10 +13,9 @@ class CustomScreenManager(ScreenManager):
         Clock.schedule_once(lambda _: Window.bind(on_keyboard=self.hook_keyboard))
 
     def get_previous_screen(self):
-        if(self.current == 'gallery'):
+        if(self.current == Screen.Gallery.value):
             return ('gallery', False)
-        else:
-            return ('gallery', True)
+        return ('gallery', True)
 
     def hook_keyboard(self, _, key, *args):
         if key == 27:

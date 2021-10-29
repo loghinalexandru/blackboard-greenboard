@@ -5,6 +5,7 @@ from functools import partial
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
 from engine.main import process_image
+from constants import Screen
 
 class CaptureScreen(MDScreen):
     def on_pre_enter(self):
@@ -15,4 +16,4 @@ class CaptureScreen(MDScreen):
 
     def picture_taken(self, _, filename):
         Clock.schedule_once(partial(process_image, filename))
-        Clock.schedule_once(partial(self.manager.get_screen('gallery').add_photo, filename))
+        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, filename))
