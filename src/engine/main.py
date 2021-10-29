@@ -17,5 +17,12 @@ def process_image(path, _):
     buffer = cv2.rotate(buffer, cv2.ROTATE_90_CLOCKWISE)
     cv2.imwrite(path, buffer)
 
+def process_image(path, new_path, _):
+    print(path)
+    print(new_path)
+    buffer = get_note(path)
+    buffer = cv2.rotate(buffer, cv2.ROTATE_90_CLOCKWISE)
+    cv2.imwrite(new_path, buffer)
+
 if __name__ == '__main__':
     cv2.imwrite('result.jpg', get_note(sys.argv[1]))

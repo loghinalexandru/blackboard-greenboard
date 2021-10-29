@@ -1,23 +1,22 @@
 import kivy
+import os
+
 kivy.require('2.0.0')
 
-import os
 from kivymd.uix.screen import MDScreen
+from functools import partial
 from kivymd.uix.filemanager import MDFileManager
 from kivy.clock import Clock
-from constants import ROOT_DIR
+from constants import ROOT_DIR, Screen
+from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
 
 class GalleryScreen(MDScreen):
-    data = {
-        'Take a picture': 'camera',
-        'Add a file': 'file-multiple'
-    }
-
-    photo_widgets = {}
-
     def __init__(self, **kwargs):
         super(GalleryScreen, self).__init__(**kwargs)
+        self.file_manager = MDFileManager(select_path=self.select_path)
+        self.data = {'Take a picture': 'camera','Add a file': 'file-multiple'}
+        self.photo_widgets = {}
         Clock.schedule_once(self.load_photos)
 
     def load_photos(self, _):
@@ -34,14 +33,15 @@ class GalleryScreen(MDScreen):
 
     def custom_transition(self, _):
         if(_.icon == 'camera'):
-            self.manager.current = 'capture'
+            self.manager.current = Screen.Capture.value
         else:
-            self.file_manager = MDFileManager(select_path=self.select_path)
             self.file_manager.show('/') 
         self.ids.dial.close_stack()
 
     def select_path(self, path):
-        print(path)
+        Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, os.path.split(path)[1])))
+        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, os.path.split(path)[1]))
+        self.exit_manager()
 
     def core_load(self, file_path):
         if(file_path.endswith("jpg") ):
