@@ -15,7 +15,7 @@ from libs.components.customsmarttile import CustomSmartTile
 class GalleryScreen(MDScreen):
     def __init__(self, **kwargs):
         super(GalleryScreen, self).__init__(**kwargs)
-        self.file_manager = MDFileManager(select_path=self._select_path, ext=['.jpg','.png','.jpeg','.gif'])
+        self.file_manager = MDFileManager(preview=True, select_path=self._select_path, ext=['.jpg','.png','.jpeg','.gif'])
         self.data = {'Take a picture': 'camera','Add a file': 'file-multiple'}
         self.photo_widgets = {}
         Clock.schedule_once(self.load_photos)
