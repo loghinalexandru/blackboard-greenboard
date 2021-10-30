@@ -34,10 +34,13 @@ class GalleryScreen(MDScreen):
 
     def custom_transition(self, _):
         if(_.icon == 'camera'):
-            camera.take_picture(filename='asd.jpg')
+            camera.take_picture(filename='asd.jpg', on_complete=self.camera_callback)
         else:
             self.file_manager.show(PRIMARY_STORAGE_PATH)
         self.ids.dial.close_stack()
+
+    def camera_callback(self, **kwargs):
+        return False
 
     def select_path(self, path):
         Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, os.path.split(path)[1])))
