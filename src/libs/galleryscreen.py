@@ -7,7 +7,7 @@ from kivymd.uix.screen import MDScreen
 from functools import partial
 from kivymd.uix.filemanager import MDFileManager
 from kivy.clock import Clock
-from constants import ROOT_DIR, Screen
+from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH
 from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
 
@@ -35,7 +35,7 @@ class GalleryScreen(MDScreen):
         if(_.icon == 'camera'):
             self.manager.current = Screen.Capture.value
         else:
-            self.file_manager.show('/') 
+            self.file_manager.show(PRIMARY_STORAGE_PATH)
         self.ids.dial.close_stack()
 
     def select_path(self, path):
