@@ -10,6 +10,7 @@ from kivy.clock import Clock
 from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH
 from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
+from plyer import camera
 
 class GalleryScreen(MDScreen):
     def __init__(self, **kwargs):
@@ -33,7 +34,7 @@ class GalleryScreen(MDScreen):
 
     def custom_transition(self, _):
         if(_.icon == 'camera'):
-            self.manager.current = Screen.Capture.value
+            camera.take_picture(filename='asd.jpg')
         else:
             self.file_manager.show(PRIMARY_STORAGE_PATH)
         self.ids.dial.close_stack()
