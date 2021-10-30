@@ -45,6 +45,7 @@ class GalleryScreen(MDScreen):
     def select_path(self, path):
         Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, os.path.split(path)[1])))
         Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, os.path.split(path)[1]))
+        self.file_manager.close()
 
     def core_load(self, file_path):
         if(file_path.endswith("jpg") ):

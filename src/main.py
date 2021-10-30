@@ -28,7 +28,7 @@ class BlackBoardGreenBoardApp(MDApp):
         super(BlackBoardGreenBoardApp, self).__init__(**kwargs)
         if(IS_ANDROID):
             from android.permissions import request_permissions, Permission
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA])
 
 if __name__ == '__main__':
     BlackBoardGreenBoardApp().run()
