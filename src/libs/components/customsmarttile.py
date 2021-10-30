@@ -10,8 +10,8 @@ class CustomSmartTile(SmartTile):
         self.height = '240dp'
         self.size_hint_y = None
         self.box_color = [0, 0, 0, 0]
-        self.on_press = partial(self.maximize, self.source)
+        self.on_press = partial(self._maximize, self.source)
 
-    def maximize(self, file):
+    def _maximize(self, file):
         self.parent.parent.parent.manager.get_screen(Screen.ImageView.value).file_name = file
         self.parent.parent.parent.manager.current = Screen.ImageView.value
