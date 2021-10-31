@@ -11,6 +11,7 @@ from kivy.clock import Clock
 from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH
 from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
+from plyer import filechooser
 
 class GalleryScreen(MDScreen):
     def __init__(self, **kwargs):
@@ -36,7 +37,7 @@ class GalleryScreen(MDScreen):
         if(_.icon == 'camera'):
             self.manager.current = Screen.Capture.value
         else:
-            self.file_manager.show(PRIMARY_STORAGE_PATH)
+            filechooser.open_file(on_selection=self._select_path)
         self.ids.dial.close_stack()
 
     def _camera_callback(self, **kwargs):
