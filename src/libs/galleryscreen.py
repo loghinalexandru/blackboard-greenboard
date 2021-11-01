@@ -45,7 +45,7 @@ class GalleryScreen(MDScreen):
     def on_success_shot(self, loaded_image_path):
         return True
 
-    def _select_path(self, selection):
+    def _select_path(self, path):
         Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, self._get_filename())))
         Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, self._get_filename()))
         self.file_manager.close()
