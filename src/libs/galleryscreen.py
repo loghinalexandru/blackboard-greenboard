@@ -11,16 +11,11 @@ from kivy.clock import Clock
 from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH
 from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
-from plyer import filechooser
-from kivy.properties import ObjectProperty, StringProperty
-from components.camera import AndroidCamera
 
 class GalleryScreen(MDScreen):
     def __init__(self, **kwargs):
         super(GalleryScreen, self).__init__(**kwargs)
         self.file_manager = MDFileManager(preview=True, select_path=self._select_path, ext=['.jpg','.png','.jpeg','.gif'])
-        my_camera = AndroidCamera()
-        image_path = StringProperty('/sdcard/my_test_photo.png')
         self.data = {'Take a picture': 'camera','Add a file': 'file-multiple'}
         self.photo_widgets = {}
         Clock.schedule_once(self.load_photos)
@@ -39,9 +34,9 @@ class GalleryScreen(MDScreen):
 
     def custom_transition(self, _):
         if(_.icon == 'camera'):
-            self.my_camera._take_picture(self.on_success_shot, self.image_path)
+            self.manager.current = Screen.Capture.value
         else:
-            filechooser.open_file(on_selection=self._select_path)
+            self.file_manager.show(PRIMARY_STORAGE_PATH)
         self.ids.dial.close_stack()
 
     def _camera_callback(self, **kwargs):
@@ -51,10 +46,9 @@ class GalleryScreen(MDScreen):
         return True
 
     def _select_path(self, selection):
-        print(selection)
-        # Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, self._get_filename())))
-        # Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, self._get_filename()))
-        # self.file_manager.close()
+        Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, self._get_filename())))
+        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, self._get_filename()))
+        self.file_manager.close()
 
     def _core_load(self, file_path):
         if(file_path.endswith("jpg") ):

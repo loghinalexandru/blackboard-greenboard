@@ -21,12 +21,17 @@ class ImageViewScreen(MDScreen):
         if IS_ANDROID:
             from jnius import autoclass
             from jnius import cast
+
+            StrictMode = autoclass('android.os.StrictMode')
+            StrictMode.disableDeathOnFileUriExposure()
             
             PythonActivity = autoclass('org.kivy.android.PythonActivity')
+
             Intent = autoclass('android.content.Intent')
             String = autoclass('java.lang.String')
             Uri = autoclass('android.net.Uri')
             File = autoclass('java.io.File')
+
             intent = Intent()
             intent.setType('"image/*"')
             intent.setAction(Intent.ACTION_SEND)
@@ -34,6 +39,7 @@ class ImageViewScreen(MDScreen):
             uri = Uri.fromFile(imageFile)
             parcelable = cast('android.os.Parcelable', uri)
             intent.putExtra(Intent.EXTRA_STREAM, parcelable)
+            
             chooser = Intent.createChooser(intent, String('Share'))
             PythonActivity.mActivity.startActivity(chooser)
 
