@@ -8,3 +8,10 @@
     XCamera:
         id: camera
         on_picture_taken: root.picture_taken(*args)
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: -90
+                origin: self.center
+        canvas.after:
+            PopMatrix
