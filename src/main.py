@@ -13,8 +13,6 @@ class CustomScreenManager(ScreenManager):
         Clock.schedule_once(lambda _: Window.bind(on_keyboard=self.hook_keyboard))
 
     def get_previous_screen(self):
-        if(self.current == Screen.Gallery.value):
-            return ('gallery', False)
         return ('gallery', True)
 
     def hook_keyboard(self, _, key, *args):
