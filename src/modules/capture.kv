@@ -9,7 +9,13 @@
         id: camera
         resolution: (1920, 1080)
         allow_stretch: True
-        keep_ratio: False
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: -90
+                origin: self.center
+        canvas.after:
+            PopMatrix
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
