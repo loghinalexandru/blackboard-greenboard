@@ -11,7 +11,7 @@ from constants import Screen
 class CaptureScreen(MDScreen):
     def __init__(self, **kwargs):
         super(CaptureScreen, self).__init__(**kwargs)
-        self.camera_resolution = Window.size
+        self.camera_resolution = (1920,1080)
 
     def on_picture_taken(self):
         return True
