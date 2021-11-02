@@ -5,10 +5,11 @@
 <CaptureScreen>:
     name: 'capture'
     md_bg_color: 0, 0, 0, 1
-    Camera:
+    AndroidCamera:
         id: camera
+        index: 0
+        resolution: self.camera_resolution
         allow_stretch: True
-        keep_ratio: False
         play: True
     AnchorLayout:
         anchor_x: 'center'
