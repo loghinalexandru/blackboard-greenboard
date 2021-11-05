@@ -1,10 +1,11 @@
 import kivy
+import os
 kivy.require('2.0.0')
 
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
 from kivy.graphics.transformation import Matrix
-from constants import Screen, IS_ANDROID
+from constants import Screen, IS_ANDROID, ROOT_DIR
 
 class ImageViewScreen(MDScreen):
     def on_pre_enter(self):
@@ -18,6 +19,7 @@ class ImageViewScreen(MDScreen):
         self.manager.current = Screen.Gallery.value
 
     def on_share(self):
+        print(os.path.join(ROOT_DIR, self.file_name))
         if IS_ANDROID:
             from jnius import autoclass
             from jnius import cast
@@ -35,7 +37,7 @@ class ImageViewScreen(MDScreen):
             intent = Intent()
             intent.setType('"image/*"')
             intent.setAction(Intent.ACTION_SEND)
-            imageFile = File(self.file_name)
+            imageFile = File(os.path.join(ROOT_DIR, self.file_name))
             uri = Uri.fromFile(imageFile)
             parcelable = cast('android.os.Parcelable', uri)
             intent.putExtra(Intent.EXTRA_STREAM, parcelable)
