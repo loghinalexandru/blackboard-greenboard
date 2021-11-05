@@ -4,8 +4,9 @@ kivy.require('2.0.0')
 from functools import partial
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
-from engine.main import process_image_with_rotation
+from engine.main import process_image
 from kivy.graphics.texture import Texture
+from constants import Screen, get_filename
 from kivy.uix.camera import Camera
 import numpy as np
 import cv2
@@ -41,6 +42,7 @@ class CaptureScreen(MDScreen):
         super(CaptureScreen, self).__init__(**kwargs)
 
     def on_picture_taken(self):
-        return True
-        # Clock.schedule_once(partial(process_image_with_rotation, filename))
-        # Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, filename))
+        filename = get_filename()
+        self.ids.camera.texture.save(filename)
+        Clock.schedule_once(partial(process_image, filename, filename))
+        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, filename))

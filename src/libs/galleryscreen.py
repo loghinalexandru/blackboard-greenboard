@@ -1,6 +1,5 @@
 import kivy
 import os
-import datetime
 
 kivy.require('2.0.0')
 
@@ -8,7 +7,7 @@ from kivymd.uix.screen import MDScreen
 from functools import partial
 from kivymd.uix.filemanager import MDFileManager
 from kivy.clock import Clock
-from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH
+from constants import ROOT_DIR, Screen, PRIMARY_STORAGE_PATH, get_filename
 from engine.main import process_image
 from libs.components.customsmarttile import CustomSmartTile
 
@@ -46,8 +45,8 @@ class GalleryScreen(MDScreen):
         return True
 
     def _select_path(self, path):
-        Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, self._get_filename())))
-        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, self._get_filename()))
+        Clock.schedule_once(partial(process_image, path, os.path.join(ROOT_DIR, get_filename())))
+        Clock.schedule_once(partial(self.manager.get_screen(Screen.Gallery.value).add_photo, get_filename()))
         self.file_manager.close()
 
     def _core_load(self, file_path):
@@ -60,5 +59,3 @@ class GalleryScreen(MDScreen):
             self.ids.gallery_content.remove_widget(self.photo_widgets[file_path])
             os.remove(file_path)
 
-    def _get_filename(self):
-        return datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S.jpg')

@@ -1,4 +1,5 @@
 import os
+import datetime
 import kivy
 kivy.require('2.0.0')
 
@@ -12,9 +13,13 @@ def __get_primary_storage():
     else:
         return '/'
 
+def get_filename():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S.jpg')
+
 ROOT_DIR = os.path.abspath((os.path.dirname(__file__)))
 IS_ANDROID = kivy.utils.platform == 'android'
 PRIMARY_STORAGE_PATH = __get_primary_storage()
+
 class Screen(Enum):
     Gallery = 'gallery'
     Capture = 'capture'

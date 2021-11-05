@@ -12,11 +12,6 @@ def get_note(path):
     gray = cv2.morphologyEx(gray, cv2.MORPH_ERODE, cv2.getStructuringElement(cv2.MORPH_RECT, (5,5)))
     return cv2.bitwise_not(gray)
 
-def process_image_with_rotation(path, _):
-    buffer = get_note(path)
-    buffer = cv2.rotate(buffer, cv2.ROTATE_90_CLOCKWISE)
-    cv2.imwrite(path, buffer)
-
 def process_image(path, new_path, _):
     buffer = get_note(path)
     cv2.imwrite(new_path, buffer)
